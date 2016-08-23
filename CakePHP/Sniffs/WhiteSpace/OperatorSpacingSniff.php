@@ -57,7 +57,7 @@ class CakePHP_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSniffer_
     {
         $tokens = $phpcsFile->getTokens();
 
-        // Skip default values in function declarations.
+        // Skip default values in function declarations or in declare statement.
         if ($tokens[$stackPtr]['code'] === T_EQUAL
             || $tokens[$stackPtr]['code'] === T_MINUS
         ) {
@@ -66,7 +66,7 @@ class CakePHP_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSniffer_
                 $bracket = array_pop($parenthesis);
                 if (isset($tokens[$bracket]['parenthesis_owner']) === true) {
                     $function = $tokens[$bracket]['parenthesis_owner'];
-                    if ($tokens[$function]['code'] === T_FUNCTION) {
+                    if ($tokens[$function]['code'] === T_FUNCTION || $tokens[$function]['code'] === T_DECLARE) {
                         return;
                     }
                 }
